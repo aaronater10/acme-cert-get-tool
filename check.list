@@ -1,0 +1,59 @@
+### Checklist to validate all necessary files/folders for application
+
+### "#" is ignored for Comments
+
+
+##### RULES FOR SYNTAX CHECKLIST ENTRIES #####
+
+### Each item/token will be referred as a Token
+
+### All tokens must be delimited/split by a space (e.g. item1 "item2" item3 item_name)
+
+
+### Token syntax is: 1st token is verify, 2nd-4th tokens is one set of actions to run once,
+#                    5th-7th tokens is optional second set of actions to run after the first set.
+
+# 1st token is the Reference Token, which is the target file/folder to verify
+
+# 2nd, 3rd, and 4th tokens are Action Tokens
+#   - 2nd token can call/launch a file, or call a function from the main script
+#   - 3rd & 4th tokens are optional arguments that can be passed into the call/launch of the 2nd token
+
+# 5th token can call/launch a file, or call a function from the main script if needing to run a second action
+# 6th, and 7th tokens are optional tokens to be passed into the 5th token, or may be used in the following:
+#   - EXAMPLE: !putty_install! :install_program !putty_dep! "BLANK" !send_error! 103 Checklist-SECTION:Installation_Check
+#   - EXPLAIN: 1st token will check if PuTTY is installed, if not, then run the install function (2nd token) from the 
+#              main script and passin the PuTTY file installer location argument (3rd token) to run it. The "BLANK"
+#              is a arbitrary string and isn't used at all, but is needed to get to the second set of actions (5th-7th tokens).
+#              5th token is calling the error engine, and the 6th & 7th tokens are passing in the error code number and error
+#              comment into the error engine to report an error if PuTTY did not succesfully install after the 1st set of actions
+#   - SUMMARY: If program is not installed, it will run the first set of actions (2nd-4th tokens), after first set of actions
+#              has run, then run second set of actions (5th-7th tokens).
+
+
+#############################################
+##### BELOW HERE IS FOR OFFICIAL CHECKS #####
+#############################################
+
+## SECTION: Dependencies Check
+
+# Putty Check
+!putty_dep! !send_error! 101 "Checklist:PuTTY_DEPENDENCY_MISSING"
+
+# Cached Server Key Check Tool Check
+!svr_key_tool_dep! !send_error! 102 "Checklist:Svr-Key-Chk-Tool_DEPENDENCY_MISSING"
+####################################
+
+
+## SECTION: Installation Check
+
+# PuTTY Installation Check
+!putty_install! :install_program !putty_dep! Install_PuTTY... !send_error! 103 "Checklist:PuTTY_FAILED_TO_INSTALL"
+####################################
+
+
+## SECTION: Misc Items
+
+# Downloaded Items Folder
+!downloaded_items! :gen_new_dir "!downloaded_items!"
+####################################
