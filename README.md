@@ -1,6 +1,6 @@
 # Acme Cert Get Tool v0.1.0
 
-This tool allows you to download your SSL Let's Encrypt Certificates from the ACME Folders or Config File on **pfSense** securely with ease!
+This tool allows you to download and get your SSL Let's Encrypt Certificates from the ACME Folders or Config File on **pfSense** securely with ease!
 
 The script tool is specially designed so you don't have to edit the script at all and only need to edit a settings.config file that gets generated upon first run, which keeps you from touching the script all together making its use very easy, and keeps the script protected so it may run without issues.
 
