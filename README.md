@@ -9,7 +9,7 @@ ___
 
 # Tutorial:
 
-##### UPDATE: I've got sick with covid and have been unable to work on providing documentation. However, I am back now and will be updating within this week. Thank you for your patience!
+##### UPDATE: I got sick with covid and have been unable to work on providing documentation. However, I am back now feeling well and will be updating within this week. There will be documentation and video tutorial! Thank you for your patience!
 
 Once you learn it, it's simple and easy to use so be on the lookout!
 
