@@ -9,7 +9,7 @@ ___
 
 # Tutorial:
 
-##### There will be written documentation and video tutorials to educate how to use this tool coming this week.
+##### UPDATE: I've got sick with covid and have been unable to work on providing documentation. However, I am back now and will be updating within this week. Thank you for your patience!
 
 Once you learn it, it's simple and easy to use so be on the lookout!
 
