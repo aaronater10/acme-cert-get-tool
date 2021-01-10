@@ -4,7 +4,7 @@ cd /d "%~dp0"
 color 3f
 setlocal EnableDelayedExpansion
 setlocal EnableExtensions
-set app_version=0.1.0
+set app_version=0.1.1
 set window_title=-SSL Certificate Auto Download Tool for pfSense/ACME v!app_version!  - by aaronater10
 title !window_title!
 cls
@@ -32,6 +32,10 @@ echo:
         set valid_svr_key=n
         set svr_key_asked=n
 
+        :: PuTTY Functions
+        set pscp="C:\Program Files\PuTTY\pscp.exe"
+        set valid_putty_version=0.73
+        
         :: PATH Variable Locations and Settings
         set putty_path=C:\Program Files\PuTTY
         set tmp_path_update=n
@@ -99,6 +103,7 @@ call :import_user_cfg
 timeout 0 >nul
 echo:
 
+
 :: Validate Settings Configuration file integrity
 call :validate_cfg_integrity
 
@@ -110,6 +115,19 @@ call :validate_user_cfg_input
 
 :: Verify if any modes were selected in Settings File. Otherwise send error
 call :verify_if_modes_selected
+
+:: Verify Installed PuTTY Version
+if "!verify_putty_version_installed!" == "y" (
+    echo:Verifying Installed PuTTY version...
+    call :verify_putty_version !pscp! !valid_putty_version! return_bool
+
+    if "!return_bool!" == "y" (
+        echo:INSTALLED PuTTY VERSION TOO OLD. Attempting to install updated version...
+        call :install_program !putty_dep!
+        set return_bool=n
+    ) else ( echo:VALID )
+)
+echo:
 
 :: Verify if Server's Key is cached in PuTTY
 call :verify_svr_key_cached !putty_reg! !port! !host!
@@ -297,6 +315,21 @@ goto :eof
 
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:: Verify PuTTY Version
+:verify_putty_version
+for /f "tokens=3" %%V in ('"%1" -V') do (
+    set installed_putty_version=%%V
+    goto :verify_if_modes_selected_cont1
+)
+
+:verify_if_modes_selected_cont1
+if !installed_putty_version! lss %2 (
+    set %3=y
+)
+goto :eof
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: Import User Settings Config
 :import_user_cfg
     for /f "eol=# delims=" %%I in (!user_settings!) do (
@@ -414,6 +447,7 @@ set /a checksum_loop=0
         if "%%I" == "icmp_check" set /a cfg_checksum=!cfg_checksum! + 1
         if "%%I" == "icmp_numof_checks" set /a cfg_checksum=!cfg_checksum! + 1
         if "%%I" == "remove_old_certs" set /a cfg_checksum=!cfg_checksum! + 1
+        if "%%I" == "verify_putty_version_installed" set /a cfg_checksum=!cfg_checksum! + 1
         
         set /a checksum_loop=!checksum_loop! + 1
 
@@ -424,7 +458,7 @@ set /a checksum_loop=0
     )
 
 :: Report Message if Checksum Bad
-if not !cfg_checksum! equ 18 (
+if not !cfg_checksum! equ 19 (
 
     :: Send Error
     call !send_error! 104 "BAD SYNTAX ITEMS" !bad_syntax_items! ""
@@ -588,6 +622,12 @@ echo:###################################
 echo:# Clean Old Downloaded Files Each Time Script Runs - Default is YES
 echo:
 echo:remove_old_certs=y
+echo:
+echo:
+echo:##################################
+echo:# Verify Installed PuTTY Version is Valid - Default is ON
+echo:
+echo:verify_putty_version_installed=y
 )>>!user_settings!
 goto :eof
 
