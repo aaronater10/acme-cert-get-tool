@@ -11,9 +11,10 @@ ___
 
 ##### UPDATE: I got sick with covid and have been unable to work on providing documentation. However, I am back now feeling well and will be updating within this week. There will be documentation and video tutorial! Thank you for your patience!
 
-##### SOFTWARE UPDATE v0.1.1: Just added version check functionality for PuTTY.
-
-
 Once you learn it, it's simple and easy to use so be on the lookout!
 
 This tool is meant for Windows Only.
+
+##### SOFTWARE UPDATE v0.1.1:
+- Added optional version verification functionality to validate correct putty version installed
+
